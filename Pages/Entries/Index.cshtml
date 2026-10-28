@@ -1,0 +1,27 @@
+@page
+@model DiaryApp.Pages.Entries.IndexModel
+@{ ViewData["Title"] = "My Diary"; }
+
+<h1>My Diary</h1>
+<p><a asp-page="Create" class="btn btn-primary">New entry</a></p>
+
+@if (Model.Entries.Count == 0)
+{
+    <p>No entries yet. Write your first one!</p>
+}
+
+@foreach (var entry in Model.Entries)
+{
+    <div class="card mb-3">
+        <div class="card-body">
+            <h5 class="card-title">@entry.Title</h5>
+            <h6 class="card-subtitle mb-2 text-muted">@entry.Date.ToString("dd MMM yyyy, HH:mm")</h6>
+            <p class="card-text">@entry.Content</p>
+            <a asp-page="Edit" asp-route-id="@entry.Id" class="btn btn-sm btn-outline-secondary">Edit</a>
+            <form method="post" asp-page-handler="Delete" asp-route-id="@entry.Id" class="d-inline"
+                  onsubmit="return confirm('Delete this entry?');">
+                <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+            </form>
+        </div>
+    </div>
+}
